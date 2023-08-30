@@ -78,6 +78,13 @@ function getWeatherReport(city) {
     })
     .catch((error) => {
       console.error("Error fetching weather data:", error);
+      const weatherData = localStorage.getItem("weather-data");
+      if (weatherData) {
+        console.log(
+          "No internet connection. Pulling old data from local storage..."
+        );
+        showWeaterReport(JSON.parse(weatherData));
+      }
       // Handle the error here, e.g., display an error message to the user
     });
 }
@@ -193,6 +200,9 @@ function initializeWeather() {
     if (city) {
       searchInputBox.value = city;
       // console.log(navigator.onLine);
+
+      // check connection to interner by fetching google
+
       if (navigator.onLine) {
         getWeatherReport(localStorage.getItem("city"));
       } else {
