@@ -6,7 +6,7 @@
 // JavaScript code goes here
 document.addEventListener("DOMContentLoaded", function () {
   // Code that runs after the DOM is fully loaded
-  console.log("loaded");
+  // console.log("loaded");
   // var heading = document.querySelector("h1");
   // heading.style.color = "blue";
   // const city = localStorage.getItem("city");
@@ -192,7 +192,8 @@ function initializeWeather() {
     const city = localStorage.getItem("city");
     if (city) {
       searchInputBox.value = city;
-      if (navigator.online) {
+      console.log(navigator.onLine);
+      if (navigator.onLine) {
         getWeatherReport(localStorage.getItem("city"));
       } else {
         const weatherData = localStorage.getItem("weather-data");
