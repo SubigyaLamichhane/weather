@@ -7,9 +7,9 @@
 document.addEventListener("DOMContentLoaded", function () {
   // Code that runs after the DOM is fully loaded
   console.log("loaded");
-  var heading = document.querySelector("h1");
-  heading.style.color = "blue";
-  const city = localStorage.getItem("city");
+  // var heading = document.querySelector("h1");
+  // heading.style.color = "blue";
+  // const city = localStorage.getItem("city");
 });
 
 //making object of weatherapi
@@ -30,6 +30,7 @@ searchInputBox.addEventListener("input", () => {
 
 searchInputBox.addEventListener("keypress", (event) => {
   if (event.keyCode === 13) {
+    // console.log("getting data from api");
     getWeatherReport(searchInputBox.value);
     localStorage.setItem("city", searchInputBox.value);
   }
@@ -45,6 +46,7 @@ searchButton.addEventListener("click", () => {
   } else if (!isValidCity(searchInputBox.value)) {
     alert("Invalid city name.");
   } else {
+    // console.log("getting data from api");
     getWeatherReport(searchInputBox.value);
     // console.log(searchInputBox.value);
     localStorage.setItem("city", searchInputBox.value);
@@ -60,6 +62,7 @@ function isValidCity(city) {
 
 //get weather report
 function getWeatherReport(city) {
+  console.log("Getting Weather Report from the API... for city:", city);
   fetch(`${weatherApi.baseUrl}?q=${city}&appid=${weatherApi.key}&units=metric`)
     .then((response) => {
       if (!response.ok) {
@@ -68,6 +71,8 @@ function getWeatherReport(city) {
       return response.json();
     })
     .then((data) => {
+      const dataInString = JSON.stringify(data);
+      localStorage.setItem("weather-data", dataInString);
       showWeaterReport(data);
       // localStorage.set("weather")
     })
@@ -187,7 +192,19 @@ function initializeWeather() {
     const city = localStorage.getItem("city");
     if (city) {
       searchInputBox.value = city;
-      getWeatherReport(localStorage.getItem("city"));
+      if (navigator.online) {
+        getWeatherReport(localStorage.getItem("city"));
+      } else {
+        const weatherData = localStorage.getItem("weather-data");
+        if (weatherData) {
+          console.log(
+            "No internet connection. Pulling old data from local storage..."
+          );
+          showWeaterReport(JSON.parse(weatherData));
+        }
+      }
+    } else {
+      console.log("No previous data found.");
     }
     // Fetch default weather report
     weatherDataDisplayed = true; // Set the flag to true after fetching the initial weather
