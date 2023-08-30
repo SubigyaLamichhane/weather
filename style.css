@@ -35,6 +35,10 @@ body {
   height: 52px;
   background-color: #4caf50;
   color: white;
+  width: 100%;
+
+  font-weight: bold;
+  font-size: 20px;
   border: none;
   border-radius: 10px;
   cursor: pointer;
