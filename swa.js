@@ -192,7 +192,7 @@ function initializeWeather() {
     const city = localStorage.getItem("city");
     if (city) {
       searchInputBox.value = city;
-      console.log(navigator.onLine);
+      // console.log(navigator.onLine);
       if (navigator.onLine) {
         getWeatherReport(localStorage.getItem("city"));
       } else {
